@@ -3,6 +3,5 @@ Personal archLinux Dotfiles
 and aosp setup :)
 
 use 
-'''
-chmod +x FILE
+''' chmod +x FILE
 '''
