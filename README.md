@@ -2,6 +2,4 @@
 Personal archLinux Dotfiles 
 and aosp setup :)
 
-use 
-''' chmod +x FILE
-'''
+use "chmod +x file" to exec
