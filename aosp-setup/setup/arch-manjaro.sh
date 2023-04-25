@@ -100,19 +100,6 @@ fi
 #    echo "Exiting without updating the system."
 #fi
 
-# Check if Java 17 is the default version
-#if java -version 2>&1 | grep -q "version \"17"; then
-#    echo "Java 17 is already the default version."
-#else
-    # Install Java 17
-#    echo "Java 17 is not the default version. Installing..."
-#    sudo pacman -S jdk17-openjdk --noconfirm
-
-     # Set Java 17 as the default version
-#    sudo archlinux-java set java-17-openjdk
-#    echo "Java 17 installed and set as the default version successfully."
-#fi
-
 # Config git 
 read -p "Which git-config to use? (personal/org) " answer
 
