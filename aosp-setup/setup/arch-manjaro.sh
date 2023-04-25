@@ -34,17 +34,17 @@ for package in $packages; do
 done
 
 # Check if Java 17 is the default version
-if java -version 2>&1 | grep -q "version \"17"; then
-    echo "Java 17 is already the default version."
-else
+#if java -version 2>&1 | grep -q "version \"17"; then
+#    echo "Java 17 is already the default version."
+#else
     # Install Java 17
-    echo "Java 17 is not the default version. Installing..."
-    sudo pacman -S jdk17-openjdk --noconfirm
+#    echo "Java 17 is not the default version. Installing..."
+#    sudo pacman -S jdk17-openjdk --noconfirm
     
      # Set Java 17 as the default version
-    sudo archlinux-java set java-17-openjdk
-    echo "Java 17 installed and set as the default version successfully."
-fi
+#    sudo archlinux-java set java-17-openjdk
+#    echo "Java 17 installed and set as the default version successfully."
+#fi
 
 # Install adb and associated udev rules
 echo '[4/4] Installing adb convenience tools'
