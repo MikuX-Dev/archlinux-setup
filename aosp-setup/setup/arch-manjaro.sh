@@ -90,25 +90,27 @@ fi
 #fi
 
 # Update system
-#read -p "Do you want to update your system? (yes/no) " answer
+read -p "Do you want to update your system? (yes/no) " answer
 
-#if [ "$choice" == "yes" ]; then
-#    echo "Updating the system..."
-#    sudo pacman -Syu
-#    echo "System updated successfully."
-#else
-#    echo "Exiting without updating the system."
-#fi
+if [ "$choice" == "yes" ]; then
+    echo "Updating the system..."
+    sudo pacman -Syu
+    echo "System updated successfully."
+else
+    echo "Exiting without updating the system."
+fi
 
 # Config git 
 read -p "Which git-config to use? (personal/org) " answer
 
 if [ "$answer" == "personal" ]; then
     echo "Configuring personal git-config"
+    sudo chmod +x ../personal-setup/personal.sh
     ../personal-setup/personal.sh
     echo "Personal git-configured successfully."
 else
     echo "Configuring org git-config"
+    sudo chmod +x ../personal-setup/org.sh
     ../personal-setup/org.sh
     echo "Org git-configured successfully."
 fi
