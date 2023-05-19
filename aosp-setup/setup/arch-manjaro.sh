@@ -19,6 +19,7 @@ fi
 
 # Sync, update, and prepare system
 echo '[2/4] Syncing repositories and updating system packages'
+sudo pacman-mirrors --fasttrack && sudo pacman -Syyu --noconfirm 
 sudo pacman -Syyu --noconfirm --needed git git-lfs multilib-devel fontconfig ttf-droid
 
 # Install android build prerequisites
@@ -91,6 +92,7 @@ fi
 
 
 # Config git 
+echo '[5/8] Configuration of git'
 read -p "Which git-config to use? (personal/org) " answer
 
 if [ "$answer" == "personal" ]; then
@@ -106,6 +108,7 @@ else
 fi
 
 # Update system
+echo '[5/8] Update system'
 read -p "Do you want to update your system? (yes/no) " answer
 
 if [ "$choice" == "yes" ]; then
@@ -117,8 +120,9 @@ else
 fi
 
 # Black arch
-
-echo "This script will add BlackArch repositories and update your system."
+# Black arch
+# Black arch
+# Black arch
 read -p "Do you want to proceed with the BlackArch setup? (yes/no) " answer
 
 if [ "$answer" == "yes" ]; then
