@@ -89,16 +89,6 @@ fi
 #    exit 1
 #fi
 
-# Update system
-read -p "Do you want to update your system? (yes/no) " answer
-
-if [ "$choice" == "yes" ]; then
-    echo "Updating the system..."
-    sudo pacman -Syu
-    echo "System updated successfully."
-else
-    echo "Exiting without updating the system."
-fi
 
 # Config git 
 read -p "Which git-config to use? (personal/org) " answer
@@ -113,6 +103,47 @@ else
     sudo chmod +x ../personal-setup/org.sh
     ../personal-setup/org.sh
     echo "Org git-configured successfully."
+fi
+
+# Update system
+read -p "Do you want to update your system? (yes/no) " answer
+
+if [ "$choice" == "yes" ]; then
+    echo "Updating the system..."
+    sudo pacman -Syu
+    echo "System updated successfully."
+else
+    echo "Exiting without updating the system."
+fi
+
+# Black arch
+
+echo "This script will add BlackArch repositories and update your system."
+read -p "Do you want to proceed with the BlackArch setup? (yes/no) " answer
+
+if [ "$answer" == "yes" ]; then
+    echo "Downloading strap.sh..."
+    curl -O https://blackarch.org/strap.sh
+
+    echo "Verifying strap.sh checksum..."
+    echo "5ea40d49ecd14c2e024deecf90605426db97ea0c strap.sh" | sha1sum -c -
+
+    echo "Setting execute permission for strap.sh..."
+    chmod +x strap.sh
+
+    echo "Running strap.sh with sudo..."
+    sudo ./strap.sh
+
+    echo "Updating system packages..."
+    sudo pacman -Syu
+
+    echo "Configuring BlackArch mirror..."
+    sudo sed -i 's/^Server/#Server/g' /etc/pacman.d/mirrorlist
+    sudo sed -i '/^#Server.*https/s/^#//' /etc/pacman.d/mirrorlist
+
+    echo "BlackArch setup completed successfully."
+else
+    echo "BlackArch setup skipped."
 fi
 
 # Complete
