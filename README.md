@@ -17,10 +17,9 @@ Then make sure you have Internet connection on the Arch iso. If you have a wirel
 
 Then download the script with from the command line:
 
-curl -LO archfi.sf.net/archfi
-If SourceForge is down, use this instead:
-
-curl -LO matmoul.github.io/archfi
+```
+curl -LO mikux-dev.github.io/archlinux-setup
+```
 Finally, launch the script:
 
 sh archfi
