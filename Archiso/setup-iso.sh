@@ -19,15 +19,15 @@ fi
 
 # Update system
 echo '[2/6] Update system'
-read -p "Do you want to update your system? (yes/no) " answer
+read -p "Do you want to update your arch Linux mirror? (yes/no) " answer
 
 if [ "$choice" == "yes" ]; then
     echo "Updating the system..."
-    sudo chmod +x ../personal-setup/personal.sh
-    ../personal-setup/personal.sh
-    echo "u"
+    sudo chmod +x mirror.sh
+    sudo ./mirror.sh
+    echo "Updated archLinux mirror"
 else
-    echo "Exiting without updating the system."
+    echo "Exiting without updating the mirror."
 fi
 
 # Sync, update, and prepare system
