@@ -21,8 +21,9 @@ Then download the script with from the command line:
 curl -LO mikux-dev.github.io/archlinux-setup
 ```
 Finally, launch the script:
-
+```
 sh archfi
+```
 Then follow the on-screen instructions to completion.
 
 If you require extra help, visit the provided video playlist and follow my example.
