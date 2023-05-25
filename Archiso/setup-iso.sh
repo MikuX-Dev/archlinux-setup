@@ -23,8 +23,9 @@ read -p "Do you want to update your system? (yes/no) " answer
 
 if [ "$choice" == "yes" ]; then
     echo "Updating the system..."
-    sudo pacman -Syu
-    echo "System updated successfully."
+    sudo chmod +x ../personal-setup/personal.sh
+    ../personal-setup/personal.sh
+    echo "u"
 else
     echo "Exiting without updating the system."
 fi
