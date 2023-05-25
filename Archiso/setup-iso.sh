@@ -6,7 +6,7 @@ clear
 echo 'Starting Arch-based Android build setup'
 
 # Uncomment the multilib repo, incase it was commented out
-echo '[1/7] Enabling multilib repo'
+echo '[1/6] Enabling multilib repo'
 
 # Check if multilib repository exists in pacman.conf
 if grep -q "\[multilib\]" /etc/pacman.conf; then
@@ -17,13 +17,25 @@ else
   echo -e "[multilib]\nInclude = /etc/pacman.d/mirrorlist" | sudo tee -a /etc/pacman.conf
 fi
 
+# Update system
+echo '[2/6] Update system'
+read -p "Do you want to update your system? (yes/no) " answer
+
+if [ "$choice" == "yes" ]; then
+    echo "Updating the system..."
+    sudo pacman -Syu
+    echo "System updated successfully."
+else
+    echo "Exiting without updating the system."
+fi
+
 # Sync, update, and prepare system
-echo '[2/7] Syncing repositories and updating system packages'
+echo '[3/6] Syncing repositories and updating system packages'
 sudo pacman-mirrors --fasttrack && sudo pacman -Syyu --noconfirm 
 sudo pacman -Syyu --noconfirm --needed git git-lfs multilib-devel devtools libisoburn squashfs-tools make archiso qemu-desktop openssh
 
 # Install android build prerequisites
-echo '[3/7] Installing Android building prerequisites'
+echo '[4/6] Installing Android building prerequisites'
 packages="ncurses5-compat-libs lib32-ncurses5-compat-libs aosp-devel xml2 lineageos-devel"
 for package in $packages; do
     echo "Installing $package"
@@ -35,7 +47,7 @@ for package in $packages; do
 done
 
 # Install adb and associated udev rules
-echo '[4/7] Installing adb convenience tools'
+echo '[5/6] Installing adb convenience tools'
 sudo pacman -S --noconfirm --needed android-tools android-udev
 
 # Check if yay is installed
@@ -55,7 +67,7 @@ fi
 
 
 # Black arch
-echo '[7/7] Black arch setup'
+echo '[6/6] Black arch setup'
 read -p "Do you want to proceed with the BlackArch setup? (yes/no) " answer
 
 if [ "$answer" == "yes" ]; then
@@ -72,7 +84,7 @@ if [ "$answer" == "yes" ]; then
     sudo ./strap.sh
 
     echo "Updating system packages..."
-    sudo pacman -Syu
+    sudo pacman -Syyu
   
     echo "BlackArch setup completed successfully."
 else
