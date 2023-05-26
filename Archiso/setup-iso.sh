@@ -33,11 +33,11 @@ fi
 # Sync, update, and prepare system
 echo '[3/6] Syncing repositories and updating system packages'
 sudo pacman-mirrors --fasttrack && sudo pacman -Syyu --noconfirm 
-sudo pacman -Syyu --noconfirm --needed git git-lfs multilib-devel devtools libisoburn squashfs-tools make archiso qemu-desktop openssh
+sudo pacman -Syyu --noconfirm --needed git git-lfs multilib-devel devtools dosfstools mtools libisoburn libburn squashfs-tools make archiso qemu-desktop openssh
 
 # Install android build prerequisites
 echo '[4/6] Installing Android building prerequisites'
-packages="ncurses5-compat-libs lib32-ncurses5-compat-libs aosp-devel xml2 lineageos-devel"
+packages=""
 for package in $packages; do
     echo "Installing $package"
     git clone https://aur.archlinux.org/"$package"
@@ -46,10 +46,6 @@ for package in $packages; do
     cd - || exit
     rm -rf "$package"
 done
-
-# Install adb and associated udev rules
-echo '[5/6] Installing adb convenience tools'
-sudo pacman -S --noconfirm --needed android-tools android-udev
 
 # Check if yay is installed
 if ! command -v yay &> /dev/null
@@ -62,35 +58,41 @@ then
     rm -rf yay
 fi
 
-# Install from yay
-#yay -S --noconfirm android-sdk
-
-
-
 # Black arch
-echo '[6/6] Black arch setup'
-read -p "Do you want to proceed with the BlackArch setup? (yes/no) " answer
 
-if [ "$answer" == "yes" ]; then
-    echo "Downloading strap.sh..."
-    curl -O https://blackarch.org/strap.sh
+# Backup the existing pacman.conf file
+sudo cp /etc/pacman.conf /etc/pacman.conf.backup
 
-    echo "Verifying strap.sh checksum..."
-    echo "5ea40d49ecd14c2e024deecf90605426db97ea0c strap.sh" | sha1sum -c -
+# Add BlackArch repository configuration to pacman.conf
+sudo tee -a /etc/pacman.conf > /dev/null <<EOT
 
-    echo "Setting execute permission for strap.sh..."
-    chmod +x strap.sh
+[blackarch]
+Include = /etc/pacman.d/blackarch-mirrorlist
+EOT
 
-    echo "Running strap.sh with sudo..."
-    sudo ./strap.sh
+# Update package lists
+sudo pacman -Sy
 
-    echo "Updating system packages..."
-    sudo pacman -Syyu
-  
-    echo "BlackArch setup completed successfully."
-else
-    echo "BlackArch setup skipped."
-fi
+# Install archlinux-contrib package
+sudo pacman -S archlinux-contrib
+
+# Generate blackarch-mirrorlist file
+sudo cp /etc/pacman.d/mirrorlist /etc/pacman.d/blackarch-mirrorlist
+sudo curl -o /etc/pacman.d/blackarch-mirrorlist https://archlinux.org/mirrorlist/all/
+sudo sed -i 's/^#Server/Server/' /etc/pacman.d/blackarch-mirrorlist
+sudo rankmirrors -v /etc/pacman.d/blackarch-mirrorlist > /etc/pacman.d/blackarch-mirrorlist.rank
+sudo mv /etc/pacman.d/blackarch-mirrorlist.rank /etc/pacman.d/blackarch-mirrorlist
+
+# Install blackarch-keyring package
+sudo pacman -Syy blackarch-keyring
+
+# Import BlackArch keyring
+sudo blackarch-keyring --init
+
+# Update package lists again
+sudo pacman -Syyu
+
+echo "BlackArch mirror has been added to Arch Linux."
 
 # Complete
 echo 'Setup completed, enjoy'
