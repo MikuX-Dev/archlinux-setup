@@ -20,9 +20,6 @@ Then download the script with from the command line:
 ```
 curl -LO mikux-dev.github.io/archlinux-setup
 ```
-```
-sudo chmod +x ch-mod.sh 
-```
 Finally, launch the script:
 ```
 sh ch-mod.sh
@@ -30,5 +27,3 @@ sh ch-mod.sh
 Then follow the on-screen instructions to completion.
 
 If you require extra help, visit the provided video playlist and follow my example.
-
-
