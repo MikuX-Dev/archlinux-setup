@@ -18,11 +18,15 @@ Then make sure you have Internet connection on the Arch iso. If you have a wirel
 Then download the script with from the command line:
 
 ```
-curl -LO mikux-dev.github.io/archlinux-setup
+git clone https://github.com/MikuX-Dev/archlinux-setup.git
+```
+Change dir
+```
+cd
 ```
 Finally, launch the script:
 ```
-sh ch-mod.sh
+./ch-mod.sh
 ```
 Then follow the on-screen instructions to completion.
 
