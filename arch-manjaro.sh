@@ -50,7 +50,8 @@ done
 # Setup neovim theme
 echo '[4/8] Settingup neovim theme'
 sudo mkdir -p ~/.config/nvim
-git clone https://github.com/NvChad/NvChad ~/.config/nvim --depth 1
+git clone https://github.com/NvChad/NvChad.git ~/.config/nvim --depth=1 
+sudo rm -rf ~/.config/nvim/.git
 
 # Install adb and associated udev rules
 echo '[5/8] Installing convenience tools'
@@ -87,16 +88,19 @@ yay -S --noconfirm brave-bin
 
 # Config git 
 echo '[6/8] Configuration of git'
-read -p "Which git-config to use? (yes) " answer
+git config --global user.name "MikuX-Dev"
+git config --global user.email "abinishanth3464@gmail.com"
 
-if [ "$answer" == "yes" ]; then
-    echo "Configuring personal git-config"
-    sudo chmod +x ../personal-setup/personal.sh
-    ../personal-setup/personal.sh
+#read -p "Which git-config to use? (yes) " answer
+
+#if [ "$answer" == "yes" ]; then
+#    echo "Configuring personal git-config"
+#    sudo chmod +x ../personal-setup/personal.sh
+#    ../personal-setup/personal.sh
     echo "Personal git-configured successfully."
-else
-    echo "Not configured git skipped."
-fi
+#else
+#    echo "Not configured git skipped."
+#fi
 
 # Black arch
 echo '[8/8] Black arch setup'
