@@ -29,7 +29,7 @@ for package in $packages; do
     echo "Installing $package"
     git clone https://aur.archlinux.org/"$package".git
     cd "$package" || exit
-    makepkg -si --noconfirm --needed
+    makepkg -si --skippgpcheck --noconfirm --needed
     cd - || exit
     rm -rf "$package"
 done
