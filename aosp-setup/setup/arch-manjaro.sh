@@ -20,7 +20,7 @@ fi
 # Sync, update, and prepare system
 echo '[2/7] Syncing repositories and updating system packages'
 sudo pacman-mirrors --fasttrack && sudo pacman -Syyu --noconfirm 
-sudo pacman -Syyu --noconfirm --needed git git-lfs multilib-devel fontconfig ttf-droid
+sudo pacman -Syyu --noconfirm --needed git git-lfs multilib-devel fontconfig ttf-droid code neovim gcc clang make rustc archiso qemu-desktop openssh devtools dosfstools mtools libisoburn libburn squashfs-tools
 
 # Install android build prerequisites
 echo '[3/7] Installing Android building prerequisites'
@@ -140,9 +140,10 @@ if [ "$answer" == "yes" ]; then
     sudo pacman -Syu
 
     echo "Configuring BlackArch mirror..."
-    sudo sed -i 's/^Server/#Server/g' /etc/pacman.d/mirrorlist
-    sudo sed -i '/^#Server.*https/s/^#//' /etc/pacman.d/mirrorlist
-
+    #sudo sed -i 's/^Server/#Server/g' /etc/pacman.d/mirrorlist
+    #sudo sed -i '/^#Server.*https/s/^#//' /etc/pacman.d/mirrorlist
+    sudo pacman -Syyu
+    
     echo "BlackArch setup completed successfully."
 else
     echo "BlackArch setup skipped."
