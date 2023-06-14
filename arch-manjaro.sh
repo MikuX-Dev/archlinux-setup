@@ -19,17 +19,17 @@ fi
 
 # Sync, update, and prepare system
 echo '[2/8] Syncing repositories and updating system packages'
-sudo pacman-mirrors --fasttrack && sudo pacman -Syyu --noconfirm 
-sudo pacman -Syu --noconfirm --needed git git-lfs multilib-devel fontconfig ttf-droid code neovim gcc clang make rustc archiso qemu-desktop openssh devtools dosfstools mtools libisoburn libburn squashfs-tools
+sudo pacman -Syyu --noconfirm 
+sudo pacman -S --noconfirm --needed git git-lfs multilib-devel fontconfig ttf-droid repo ccache cmake
 
 # Install android build prerequisites
 echo '[3/8] Installing Android building prerequisites'
-packages="ncurses5-compat-libs lib32-ncurses5-compat-libs aosp-devel xml2 lineageos-devel"
+packages="ncurses5-compat-libs lib32-ncurses5-compat-libs aosp-devel xml2 lineageos-devel yay archiso-git"
 for package in $packages; do
     echo "Installing $package"
-    git clone https://aur.archlinux.org/"$package"
+    git clone https://aur.archlinux.org/"$package".git
     cd "$package" || exit
-    makepkg -si --skippgpcheck --noconfirm --needed
+    makepkg -si --noconfirm --needed
     cd - || exit
     rm -rf "$package"
 done
@@ -53,22 +53,11 @@ sudo mkdir -p ~/.config/nvim
 git clone https://github.com/NvChad/NvChad ~/.config/nvim --depth 1
 
 # Install adb and associated udev rules
-echo '[5/8] Installing adb convenience tools'
-sudo pacman -S --noconfirm --needed android-tools android-udev
+echo '[5/8] Installing convenience tools'
+sudo pacman -S --noconfirm --needed android-tools android-udev code bitwarden neovim gcc clang make rust archiso qemu-desktop openssh devtools dosfstools mtools libisoburn libburn squashfs-tools
 
-# Check if yay is installed
-if ! command -v yay &> /dev/null
-then
-    # Clone yay.git from GitHub
-    git clone https://aur.archlinux.org/yay.git
-    cd yay
-    makepkg -si --noconfirm
-    cd ..
-    rm -rf yay
-fi
-
-# Install from yay
-#yay -S --noconfirm android-sdk
+Install from yay
+yay -S --noconfirm brave-bin 
 
 # Path
 #shell=$(basename $SHELL)
@@ -98,30 +87,15 @@ fi
 
 # Config git 
 echo '[6/8] Configuration of git'
-read -p "Which git-config to use? (personal/org) " answer
+read -p "Which git-config to use? (yes) " answer
 
-if [ "$answer" == "personal" ]; then
+if [ "$answer" == "yes" ]; then
     echo "Configuring personal git-config"
     sudo chmod +x ../personal-setup/personal.sh
     ../personal-setup/personal.sh
     echo "Personal git-configured successfully."
 else
-    echo "Configuring org git-config"
-    sudo chmod +x ../personal-setup/org.sh
-    ../personal-setup/org.sh
-    echo "Org git-configured successfully."
-fi
-
-# Update system
-echo '[7/8] Update system'
-read -p "Do you want to update your system? (yes/no) " answer
-
-if [ "$choice" == "yes" ]; then
-    echo "Updating the system..."
-    sudo pacman -Syu
-    echo "System updated successfully."
-else
-    echo "Exiting without updating the system."
+    echo "Not configured git skipped."
 fi
 
 # Black arch
