@@ -6,7 +6,7 @@ clear
 echo 'Starting Arch-based Android build setup'
 
 # Uncomment the multilib repo, incase it was commented out
-echo '[1/7] Enabling multilib repo'
+echo '[1/8] Enabling multilib repo'
 
 # Check if multilib repository exists in pacman.conf
 if grep -q "\[multilib\]" /etc/pacman.conf; then
@@ -18,12 +18,12 @@ else
 fi
 
 # Sync, update, and prepare system
-echo '[2/7] Syncing repositories and updating system packages'
+echo '[2/8] Syncing repositories and updating system packages'
 sudo pacman-mirrors --fasttrack && sudo pacman -Syyu --noconfirm 
-sudo pacman -Syyu --noconfirm --needed git git-lfs multilib-devel fontconfig ttf-droid code neovim gcc clang make rustc archiso qemu-desktop openssh devtools dosfstools mtools libisoburn libburn squashfs-tools
+sudo pacman -Syu --noconfirm --needed git git-lfs multilib-devel fontconfig ttf-droid code neovim gcc clang make rustc archiso qemu-desktop openssh devtools dosfstools mtools libisoburn libburn squashfs-tools
 
 # Install android build prerequisites
-echo '[3/7] Installing Android building prerequisites'
+echo '[3/8] Installing Android building prerequisites'
 packages="ncurses5-compat-libs lib32-ncurses5-compat-libs aosp-devel xml2 lineageos-devel"
 for package in $packages; do
     echo "Installing $package"
@@ -47,8 +47,13 @@ done
 #    echo "Java 17 installed and set as the default version successfully."
 #fi
 
+# Setup neovim theme
+echo '[4/8] Settingup neovim theme'
+sudo mkdir -p ~/.config/nvim
+git clone https://github.com/NvChad/NvChad ~/.config/nvim --depth 1
+
 # Install adb and associated udev rules
-echo '[4/7] Installing adb convenience tools'
+echo '[5/8] Installing adb convenience tools'
 sudo pacman -S --noconfirm --needed android-tools android-udev
 
 # Check if yay is installed
@@ -92,7 +97,7 @@ fi
 
 
 # Config git 
-echo '[5/7] Configuration of git'
+echo '[6/8] Configuration of git'
 read -p "Which git-config to use? (personal/org) " answer
 
 if [ "$answer" == "personal" ]; then
@@ -108,7 +113,7 @@ else
 fi
 
 # Update system
-echo '[6/7] Update system'
+echo '[7/8] Update system'
 read -p "Do you want to update your system? (yes/no) " answer
 
 if [ "$choice" == "yes" ]; then
@@ -120,7 +125,7 @@ else
 fi
 
 # Black arch
-echo '[7/7] Black arch setup'
+echo '[8/8] Black arch setup'
 read -p "Do you want to proceed with the BlackArch setup? (yes/no) " answer
 
 if [ "$answer" == "yes" ]; then
